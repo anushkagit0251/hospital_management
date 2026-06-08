@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCare+ Smart Hospital Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading">
+  <div style="font-size:60px">🏥</div>
+  <div class="loader-ring"></div>
+  <h3>MediCare+ Hospital System</h3>
+  <p>Initializing modules…</p>
+</div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text">
+        <h1>MediCare+</h1>
+        <span>Smart Hospital Management</span>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</div>
+
+    <div class="nav-section-label">Modules</div>
+    <div class="nav-item" onclick="showPage('patients',this)"><span class="nav-icon">👤</span>Patient Management<span class="nav-badge" id="badge-patients">12</span></div>
+    <div class="nav-item" onclick="showPage('doctors',this)"><span class="nav-icon">👨‍⚕️</span>Doctor Management</div>
+    <div class="nav-item" onclick="showPage('nurses',this)"><span class="nav-icon">👩‍⚕️</span>Nurse Management</div>
+    <div class="nav-item" onclick="showPage('appointments',this)"><span class="nav-icon">📅</span>Appointments<span class="nav-badge" id="badge-appts">5</span></div>
+    <div class="nav-item" onclick="showPage('pharmacy',this)"><span class="nav-icon">💊</span>Pharmacy</div>
+    <div class="nav-item" onclick="showPage('records',this)"><span class="nav-icon">📋</span>Medical Records</div>
+    <div class="nav-item" onclick="showPage('lab',this)"><span class="nav-icon">🔬</span>Laboratory</div>
+    <div class="nav-item" onclick="showPage('billing',this)"><span class="nav-icon">🧾</span>Billing</div>
+
+    <div class="nav-section-label">Reports & Support</div>
+    <div class="nav-item" onclick="showPage('reports',this)"><span class="nav-icon">📈</span>Hospital Reports</div>
+    <div class="nav-item" onclick="showPage('care',this)"><span class="nav-icon">💬</span>Customer Care</div>
+    <div class="nav-item" onclick="showPage('feedback',this)"><span class="nav-icon">⭐</span>Feedback</div>
+  </div>
+  <div class="sidebar-footer">© 2025 MediCare+ Hospital System</div>
+</nav>
+
+<!-- TOPBAR -->
+<header id="topbar">
+  <div class="topbar-left">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="page-title" id="page-title-text">Dashboard</div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-date" id="clock"></div>
+    <button class="topbar-btn" onclick="showPage('care',null)" title="Support">💬</button>
+    <button class="topbar-btn" style="position:relative" title="Notifications">🔔<span class="notif-dot"></span></button>
+    <div class="user-chip">
+      <div class="user-avatar">AD</div>
+      <span class="user-name">Admin</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <section class="page active" id="page-dashboard">
+    <div class="dashboard-hero">
+      <div class="hero-text">
+        <h2>Welcome to MediCare+ 👋</h2>
+        <p>Your smart hospital management hub. Manage patients, doctors, appointments, pharmacy, billing and more — all in one place.</p>
+        <div class="hero-actions">
+          <button class="btn btn-gold" onclick="openModal('modal-reg-patient')">➕ Register Patient</button>
+          <button class="btn btn-outline" style="border-color:white;color:white;" onclick="showPage('appointments',document.querySelector('.nav-item:nth-child(7)'))">📅 Book Appointment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card teal"><div class="stat-icon teal">👥</div><div class="stat-info"><div class="stat-label">Total Patients</div><div class="stat-value teal" style="color:var(--teal)">248</div><div class="stat-sub">↑ +12 this week</div></div></div>
+      <div class="stat-card gold"><div class="stat-icon gold">👨‍⚕️</div><div class="stat-info"><div class="stat-label">Doctors</div><div class="stat-value" style="color:#9a6700">34</div><div class="stat-sub">↑ 2 on leave</div></div></div>
+      <div class="stat-card blue"><div class="stat-icon blue">📅</div><div class="stat-info"><div class="stat-label">Appointments Today</div><div class="stat-value" style="color:var(--blue)">57</div><div class="stat-sub">↑ 5 pending</div></div></div>
+      <div class="stat-card green"><div class="stat-icon green">💊</div><div class="stat-info"><div class="stat-label">Medicines</div><div class="stat-value" style="color:var(--green)">186</div><div class="stat-sub">↑ 12 low stock</div></div></div>
+      <div class="stat-card red"><div class="stat-icon red">🔬</div><div class="stat-info"><div class="stat-label">Lab Reports</div><div class="stat-value" style="color:var(--red)">94</div><div class="stat-sub">↑ 8 pending</div></div></div>
+      <div class="stat-card purple"><div class="stat-icon purple">💰</div><div class="stat-info"><div class="stat-label">Revenue (₹)</div><div class="stat-value" style="color:var(--purple)">1.4L</div><div class="stat-sub">↑ +18% this month</div></div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Today's Appointments</div><button class="btn btn-sm btn-outline" onclick="showPage('appointments',null)">View All</button></div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Patient</th><th>Doctor</th><th>Time</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Priya Sharma</td><td>Dr. Mehta (Cardio)</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">09:00 AM</td><td><span class="badge badge-green">Confirmed</span></td></tr>
+                <tr><td>Rohit Kumar</td><td>Dr. Singh (Ortho)</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">10:30 AM</td><td><span class="badge badge-blue">In Progress</span></td></tr>
+                <tr><td>Anjali Verma</td><td>Dr. Patel (Neuro)</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">11:00 AM</td><td><span class="badge badge-gold">Waiting</span></td></tr>
+                <tr><td>Suresh Nair</td><td>Dr. Mehta (Cardio)</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">02:00 PM</td><td><span class="badge badge-gray">Scheduled</span></td></tr>
+                <tr><td>Meera Joshi</td><td>Dr. Rao (Pediatrics)</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">03:30 PM</td><td><span class="badge badge-gray">Scheduled</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Department Occupancy</div></div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Cardiology</span><span style="font-weight:600;color:var(--teal)">78%</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill teal" style="width:78%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Orthopedics</span><span style="font-weight:600;color:#9a6700">62%</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill gold" style="width:62%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Neurology</span><span style="font-weight:600;color:var(--green)">45%</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill green" style="width:45%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Pediatrics</span><span style="font-weight:600;color:var(--blue)">90%</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill teal" style="width:90%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Emergency</span><span style="font-weight:600;color:var(--red)">55%</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill red" style="width:55%"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Recent Patients</div><button class="btn btn-sm btn-primary" onclick="openModal('modal-reg-patient')">+ Add</button></div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>ID</th><th>Name</th><th>Blood Group</th><th>Action</th></tr></thead>
+              <tbody id="dash-patient-table">
+                <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">P-001</span></td><td>Priya Sharma</td><td><span class="badge badge-red">B+</span></td><td><button class="btn btn-xs btn-outline" onclick="showPage('patients',null)">View</button></td></tr>
+                <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">P-002</span></td><td>Rohit Kumar</td><td><span class="badge badge-blue">O+</span></td><td><button class="btn btn-xs btn-outline" onclick="showPage('patients',null)">View</button></td></tr>
+                <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">P-003</span></td><td>Anjali Verma</td><td><span class="badge badge-green">A+</span></td><td><button class="btn btn-xs btn-outline" onclick="showPage('patients',null)">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Low Stock Alerts 🚨</div></div>
+        <div class="card-body">
+          <div class="alert alert-warning">⚠️ 12 medicines are running low. Restock required.</div>
+          <table style="width:100%;font-size:13px">
+            <thead><tr><th style="padding:8px 0;color:var(--gray-400);font-size:11px">Medicine</th><th style="padding:8px 0;color:var(--gray-400);font-size:11px">Stock</th><th style="padding:8px 0;color:var(--gray-400);font-size:11px">Status</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:7px 0">Paracetamol 500mg</td><td>8 units</td><td><span class="badge badge-red">Critical</span></td></tr>
+              <tr><td style="padding:7px 0">Amoxicillin 250mg</td><td>15 units</td><td><span class="badge badge-gold">Low</span></td></tr>
+              <tr><td style="padding:7px 0">Metformin 500mg</td><td>22 units</td><td><span class="badge badge-gold">Low</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PATIENTS ═══ -->
+  <section class="page" id="page-patients">
+    <div class="section-head">
+      <h3>Patient Management</h3>
+      <div style="display:flex;gap:10px">
+        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search patient…" oninput="filterPatients(this.value)" style="width:220px;"></div>
+        <button class="btn btn-primary" onclick="openModal('modal-reg-patient')">➕ Register Patient</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'ptab-all')">All Patients</button>
+      <button class="tab-btn" onclick="switchTab(this,'ptab-add')">Add New</button>
+      <button class="tab-btn" onclick="switchTab(this,'ptab-history')">Medical History</button>
+    </div>
+
+    <div id="ptab-all">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table id="patients-table">
+              <thead><tr><th>Patient ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Blood Group</th><th>Phone</th><th>Condition</th><th>Actions</th></tr></thead>
+              <tbody id="patients-tbody">
+                <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">P-001</span></td><td>Priya Sharma</td><td>34</td><td>Female</td><td><span class="badge badge-red">B+</span></td><td>9876543210</td><td><span class="badge badge-gold">Follow-up</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-xs btn-outline" onclick="viewPatient('P-001','Priya Sharma')">View</button><button class="btn btn-xs btn-primary" onclick="openModal('modal-reg-patient')">Edit</button><button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></div></td></tr>
+                <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">P-002</span></td><td>Rohit Kumar</td><td>45</td><td>Male</td><td><span class="badge badge-blue">O+</span></td><td>9123456780</td><td><span class="badge badge-green">Stable</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-xs btn-outline" onclick="viewPatient('P-002','Rohit Kumar')">View</button><button class="btn btn-xs btn-primary" onclick="openModal('modal-reg-patient')">Edit</button><button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></div></td></tr>
+                <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">P-003</span></td><td>Anjali Verma</td><td>28</td><td>Female</td><td><span class="badge badge-green">A+</span></td><td>9988776655</td><td><span class="badge badge-blue">Admitted</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-xs btn-outline" onclick="viewPatient('P-003','Anjali Verma')">View</button><button class="btn btn-xs btn-primary" onclick="openModal('modal-reg-patient')">Edit</button><button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></div></td></tr>
+                <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">P-004</span></td><td>Suresh Nair</td><td>60</td><td>Male</td><td><span class="badge badge-purple">AB-</span></td><td>9871234560</td><td><span class="badge badge-red">Critical</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-xs btn-outline" onclick="viewPatient('P-004','Suresh Nair')">View</button><button class="btn btn-xs btn-primary" onclick="openModal('modal-reg-patient')">Edit</button><button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ptab-add" style="display:none">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Register New Patient</div></div>
+        <div class="card-body">
+          <div id="patient-form-alert"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Full Name *</label><input type="text" id="pf-name" placeholder="e.g. Priya Sharma"></div>
+            <div class="form-group"><label>Age *</label><input type="number" id="pf-age" placeholder="Age"></div>
+            <div class="form-group"><label>Gender *</label><select id="pf-gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Phone *</label><input type="tel" id="pf-phone" placeholder="10-digit mobile"></div>
+            <div class="form-group"><label>Blood Group</label><select id="pf-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+            <div class="form-group"><label>Address</label><input type="text" id="pf-addr" placeholder="City / Area"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Emergency Contact</label><input type="tel" id="pf-emerg" placeholder="Emergency phone"></div>
+            <div class="form-group"><label>Referred Doctor</label><select id="pf-doc"><option value="">Select</option><option>Dr. Mehta (Cardiology)</option><option>Dr. Singh (Orthopedics)</option><option>Dr. Patel (Neurology)</option><option>Dr. Rao (Pediatrics)</option></select></div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px"><label>Known Allergies / Medical History</label><textarea id="pf-history" placeholder="Mention any allergies, existing conditions…"></textarea></div>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="registerPatient()">✅ Register Patient</button>
+            <button class="btn btn-outline" onclick="clearPatientForm()">🔄 Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ptab-history" style="display:none">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Patient Medical History</div></div>
+        <div class="card-body">
+          <div class="form-row" style="margin-bottom:16px"><div class="form-group"><label>Search by Patient ID / Name</label><input type="text" id="hist-search" placeholder="e.g. P-001 or Priya"></div><div style="display:flex;align-items:flex-end"><button class="btn btn-primary" onclick="showHistory()">🔍 Search</button></div></div>
+          <div id="history-result">
+            <div class="alert alert-info">ℹ️ Enter a patient ID or name to view their medical history.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DOCTORS ═══ -->
+  <section class="page" id="page-doctors">
+    <div class="section-head"><h3>Doctor Management</h3><button class="btn btn-primary" onclick="openModal('modal-add-doctor')">➕ Add Doctor</button></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'dtab-list')">All Doctors</button>
+      <button class="tab-btn" onclick="switchTab(this,'dtab-schedule')">Schedule</button>
+    </div>
+    <div id="dtab-list">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table><thead><tr><th>Doc ID</th><th>Name</th><th>Specialization</th><th>Fee (₹)</th><th>Slots</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">D-001</span></td><td>Dr. Rajesh Mehta</td><td>Cardiology</td><td>800</td><td>09:00–17:00</td><td><span class="badge badge-green">Available</span></td><td><button class="btn btn-xs btn-outline">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+              <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">D-002</span></td><td>Dr. Kiran Singh</td><td>Orthopedics</td><td>600</td><td>10:00–16:00</td><td><span class="badge badge-gold">On Leave</span></td><td><button class="btn btn-xs btn-outline">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+              <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">D-003</span></td><td>Dr. Sunita Patel</td><td>Neurology</td><td>1000</td><td>11:00–15:00</td><td><span class="badge badge-green">Available</span></td><td><button class="btn btn-xs btn-outline">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+              <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">D-004</span></td><td>Dr. Vinod Rao</td><td>Pediatrics</td><td>500</td><td>08:00–14:00</td><td><span class="badge badge-green">Available</span></td><td><button class="btn btn-xs btn-outline">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+              <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">D-005</span></td><td>Dr. Pooja Sharma</td><td>Dermatology</td><td>700</td><td>13:00–19:00</td><td><span class="badge badge-blue">Busy</span></td><td><button class="btn btn-xs btn-outline">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="dtab-schedule" style="display:none">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Doctor Schedule — Today</div></div>
+        <div class="card-body">
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:16px;font-size:13px">
+            <p style="font-weight:600;margin-bottom:12px">Dr. Rajesh Mehta — Cardiology</p>
+            <div class="slot-grid">
+              <div class="slot booked">09:00</div><div class="slot booked">09:30</div>
+              <div class="slot available">10:00</div><div class="slot available">10:30</div>
+              <div class="slot booked">11:00</div><div class="slot available">11:30</div>
+              <div class="slot available">14:00</div><div class="slot available">14:30</div>
+              <div class="slot booked">15:00</div><div class="slot available">15:30</div>
+              <div class="slot available">16:00</div><div class="slot available">16:30</div>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:14px;font-size:12px"><span>🟢 Available</span><span>⬜ Booked</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NURSES ═══ -->
+  <section class="page" id="page-nurses">
+    <div class="section-head"><h3>Nurse Management</h3><button class="btn btn-primary" onclick="openModal('modal-add-nurse')">➕ Add Nurse</button></div>
+    <div class="card">
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table><thead><tr><th>Nurse ID</th><th>Name</th><th>Department</th><th>Shift</th><th>Patients Assigned</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">N-001</span></td><td>Ritu Gupta</td><td>ICU</td><td><span class="badge badge-blue">Morning</span></td><td>4</td><td><span class="badge badge-green">On Duty</span></td><td><button class="btn btn-xs btn-outline">Edit</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+            <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">N-002</span></td><td>Sunita Das</td><td>Pediatrics</td><td><span class="badge badge-gold">Evening</span></td><td>6</td><td><span class="badge badge-green">On Duty</span></td><td><button class="btn btn-xs btn-outline">Edit</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+            <tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:12px">N-003</span></td><td>Kavitha Nair</td><td>Emergency</td><td><span class="badge badge-red">Night</span></td><td>3</td><td><span class="badge badge-gold">Break</span></td><td><button class="btn btn-xs btn-outline">Edit</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ APPOINTMENTS ═══ -->
+  <section class="page" id="page-appointments">
+    <div class="section-head"><h3>Appointment Management</h3><button class="btn btn-primary" onclick="openModal('modal-book-appt')">📅 Book Appointment</button></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'atab-list')">All Appointments</button>
+      <button class="tab-btn" onclick="switchTab(this,'atab-book')">Book New</button>
+      <button class="tab-btn" onclick="switchTab(this,'atab-calendar')">Calendar</button>
+    </div>
+    <div id="atab-list">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table><thead><tr><th>Appt ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="appt-tbody">
+              <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">A-001</td><td>Priya Sharma</td><td>Dr. Mehta</td><td>2025-06-09</td><td>09:00 AM</td><td>Consultation</td><td><span class="badge badge-green">Confirmed</span></td><td><button class="btn btn-xs btn-outline">Reschedule</button> <button class="btn btn-xs btn-danger" onclick="cancelAppt(this)">Cancel</button></td></tr>
+              <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">A-002</td><td>Rohit Kumar</td><td>Dr. Singh</td><td>2025-06-09</td><td>10:30 AM</td><td>Follow-up</td><td><span class="badge badge-blue">In Progress</span></td><td><button class="btn btn-xs btn-outline">Reschedule</button> <button class="btn btn-xs btn-danger" onclick="cancelAppt(this)">Cancel</button></td></tr>
+              <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">A-003</td><td>Anjali Verma</td><td>Dr. Patel</td><td>2025-06-10</td><td>11:00 AM</td><td>Consultation</td><td><span class="badge badge-gold">Waiting</span></td><td><button class="btn btn-xs btn-outline">Reschedule</button> <button class="btn btn-xs btn-danger" onclick="cancelAppt(this)">Cancel</button></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="atab-book" style="display:none">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Book New Appointment</div></div>
+        <div class="card-body">
+          <div id="appt-alert"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Patient ID / Name *</label><input type="text" id="af-patient" placeholder="e.g. P-001 or Priya"></div>
+            <div class="form-group"><label>Doctor *</label><select id="af-doc"><option value="">Select Doctor</option><option>Dr. Mehta (Cardiology) — ₹800</option><option>Dr. Singh (Orthopedics) — ₹600</option><option>Dr. Patel (Neurology) — ₹1000</option><option>Dr. Rao (Pediatrics) — ₹500</option><option>Dr. Sharma (Dermatology) — ₹700</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Date *</label><input type="date" id="af-date"></div>
+            <div class="form-group"><label>Type</label><select id="af-type"><option>Consultation</option><option>Follow-up</option><option>Emergency</option><option>Routine Checkup</option></select></div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px"><label>Choose Time Slot</label>
+            <div class="slot-grid" style="margin-top:8px">
+              <div class="slot available" onclick="selectSlot(this)">09:00</div>
+              <div class="slot available" onclick="selectSlot(this)">09:30</div>
+              <div class="slot booked">10:00</div>
+              <div class="slot available" onclick="selectSlot(this)">10:30</div>
+              <div class="slot available" onclick="selectSlot(this)">11:00</div>
+              <div class="slot booked">11:30</div>
+              <div class="slot available" onclick="selectSlot(this)">14:00</div>
+              <div class="slot available" onclick="selectSlot(this)">14:30</div>
+              <div class="slot available" onclick="selectSlot(this)">15:00</div>
+              <div class="slot available" onclick="selectSlot(this)">16:00</div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px"><label>Notes</label><textarea id="af-notes" placeholder="Symptoms or reason for visit…"></textarea></div>
+          <div class="btn-group"><button class="btn btn-primary" onclick="bookAppointment()">✅ Confirm Booking</button><button class="btn btn-outline" onclick="clearApptForm()">🔄 Clear</button></div>
+        </div>
+      </div>
+    </div>
+    <div id="atab-calendar" style="display:none">
+      <div class="card"><div class="card-header"><div class="card-title">Appointment Calendar — June 2025</div></div>
+      <div class="card-body" id="mini-calendar"></div></div>
+    </div>
+  </section>
+
+  <!-- ═══ PHARMACY ═══ -->
+  <section class="page" id="page-pharmacy">
+    <div class="section-head"><h3>Pharmacy Management</h3><button class="btn btn-primary" onclick="openModal('modal-add-med')">➕ Add Medicine</button></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'ptab2-inv')">Inventory</button>
+      <button class="tab-btn" onclick="switchTab(this,'ptab2-search')">Search Medicine</button>
+      <button class="tab-btn" onclick="switchTab(this,'ptab2-expiry')">Expiry Alerts</button>
+    </div>
+    <div id="ptab2-inv">
+      <div class="med-cards" id="med-grid">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+    <div id="ptab2-search" style="display:none">
+      <div class="card"><div class="card-body">
+        <div class="form-row"><div class="form-group"><label>Search Medicine</label><input type="text" id="med-search-inp" placeholder="Medicine name…" oninput="searchMedicine(this.value)"></div></div>
+        <div id="med-search-result"></div>
+      </div></div>
+    </div>
+    <div id="ptab2-expiry" style="display:none">
+      <div class="card"><div class="card-body">
+        <div class="alert alert-danger">🚨 3 medicines expire within 30 days!</div>
+        <table><thead><tr><th>Medicine</th><th>Stock</th><th>Expiry Date</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Amoxicillin 250mg</td><td>15</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">2025-06-25</td><td><span class="badge badge-red">Expires Soon</span></td></tr>
+          <tr><td>Cough Syrup 100ml</td><td>8</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">2025-07-01</td><td><span class="badge badge-gold">Warning</span></td></tr>
+          <tr><td>Antacid Tabs</td><td>30</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">2025-07-10</td><td><span class="badge badge-gold">Warning</span></td></tr>
+        </tbody></table>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ═══ MEDICAL RECORDS ═══ -->
+  <section class="page" id="page-records">
+    <div class="section-head"><h3>Medical Records</h3><button class="btn btn-primary" onclick="openModal('modal-add-record')">➕ Add Record</button></div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Patient Records</div><div class="search-wrap"><span class="search-icon">🔍</span><input type="text" placeholder="Search by patient ID…" style="width:200px"></div></div>
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table><thead><tr><th>Record ID</th><th>Patient</th><th>Diagnosis</th><th>Doctor</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">R-001</td><td>Priya Sharma</td><td>Hypertension</td><td>Dr. Mehta</td><td>2025-06-01</td><td><button class="btn btn-xs btn-outline" onclick="viewRecord('Priya Sharma','Hypertension','Amlodipine 5mg OD, lifestyle changes')">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">R-002</td><td>Rohit Kumar</td><td>Knee Osteoarthritis</td><td>Dr. Singh</td><td>2025-05-28</td><td><button class="btn btn-xs btn-outline" onclick="viewRecord('Rohit Kumar','Knee Osteoarthritis','Physiotherapy + Ibuprofen 400mg')">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">R-003</td><td>Anjali Verma</td><td>Migraine</td><td>Dr. Patel</td><td>2025-06-05</td><td><button class="btn btn-xs btn-outline" onclick="viewRecord('Anjali Verma','Migraine','Sumatriptan 50mg, rest & hydration')">View</button> <button class="btn btn-xs btn-danger" onclick="deleteRow(this)">Del</button></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ LABORATORY ═══ -->
+  <section class="page" id="page-lab">
+    <div class="section-head"><h3>Laboratory Management</h3><button class="btn btn-primary" onclick="openModal('modal-add-lab')">➕ New Lab Report</button></div>
+    <div class="card">
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table><thead><tr><th>Report ID</th><th>Patient</th><th>Test Name</th><th>Result</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="lab-tbody">
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">L-001</td><td>Priya Sharma</td><td>Complete Blood Count</td><td>Hb: 11.2 g/dL</td><td>2025-06-08</td><td><span class="badge badge-green">Ready</span></td><td><button class="btn btn-xs btn-primary" onclick="viewLabReport()">View Report</button></td></tr>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">L-002</td><td>Suresh Nair</td><td>ECG</td><td>ST Depression noted</td><td>2025-06-08</td><td><span class="badge badge-red">Abnormal</span></td><td><button class="btn btn-xs btn-primary" onclick="viewLabReport()">View Report</button></td></tr>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">L-003</td><td>Anjali Verma</td><td>MRI Brain</td><td>Pending</td><td>2025-06-09</td><td><span class="badge badge-gold">Processing</span></td><td><button class="btn btn-xs btn-outline">Track</button></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BILLING ═══ -->
+  <section class="page" id="page-billing">
+    <div class="section-head"><h3>Billing Management</h3><button class="btn btn-primary" onclick="openModal('modal-gen-bill')">🧾 Generate Bill</button></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'btab-list')">All Bills</button>
+      <button class="tab-btn" onclick="switchTab(this,'btab-create')">Create Bill</button>
+    </div>
+    <div id="btab-list">
+      <div class="card"><div class="card-body">
+        <div class="table-wrapper">
+          <table><thead><tr><th>Bill ID</th><th>Patient</th><th>Consult (₹)</th><th>Medicine (₹)</th><th>Lab (₹)</th><th>Total (₹)</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">B-001</td><td>Priya Sharma</td><td>800</td><td>350</td><td>500</td><td><strong>1650</strong></td><td><span class="badge badge-green">Paid</span></td><td><button class="btn btn-xs btn-outline" onclick="showReceipt('Priya Sharma','800','350','500','1650')">Receipt</button></td></tr>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">B-002</td><td>Rohit Kumar</td><td>600</td><td>200</td><td>0</td><td><strong>800</strong></td><td><span class="badge badge-gold">Pending</span></td><td><button class="btn btn-xs btn-outline" onclick="showReceipt('Rohit Kumar','600','200','0','800')">Receipt</button></td></tr>
+            <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">B-003</td><td>Suresh Nair</td><td>1000</td><td>600</td><td>1200</td><td><strong>2800</strong></td><td><span class="badge badge-red">Overdue</span></td><td><button class="btn btn-xs btn-outline" onclick="showReceipt('Suresh Nair','1000','600','1200','2800')">Receipt</button></td></tr>
+          </tbody></table>
+        </div>
+      </div></div>
+    </div>
+    <div id="btab-create" style="display:none">
+      <div class="card"><div class="card-header"><div class="card-title">Generate New Bill</div></div>
+      <div class="card-body">
+        <div id="bill-alert"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Patient *</label><input type="text" id="bf-patient" placeholder="Patient ID or name"></div>
+          <div class="form-group"><label>Consultation Charges (₹)</label><input type="number" id="bf-consult" placeholder="0" oninput="calcBill()"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Medicine Charges (₹)</label><input type="number" id="bf-med" placeholder="0" oninput="calcBill()"></div>
+          <div class="form-group"><label>Lab Charges (₹)</label><input type="number" id="bf-lab" placeholder="0" oninput="calcBill()"></div>
+        </div>
+        <div style="background:var(--teal);color:white;border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:16px;font-weight:600">Total Amount</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700" id="bill-total">₹ 0</span>
+        </div>
+        <div class="btn-group"><button class="btn btn-gold" onclick="generateBill()">🧾 Generate Bill & Receipt</button><button class="btn btn-outline" onclick="clearBillForm()">🔄 Clear</button></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ═══ REPORTS ═══ -->
+  <section class="page" id="page-reports">
+    <div class="section-head"><h3>Hospital Reports</h3><button class="btn btn-primary">📥 Export CSV</button></div>
+    <div class="stats-grid">
+      <div class="stat-card teal"><div class="stat-icon teal">👥</div><div class="stat-info"><div class="stat-label">Total Patients (Month)</div><div class="stat-value" style="color:var(--teal)">248</div><div class="stat-sub">↑ +12% vs last month</div></div></div>
+      <div class="stat-card gold"><div class="stat-icon gold">💰</div><div class="stat-info"><div class="stat-label">Revenue (Month)</div><div class="stat-value" style="color:#9a6700">₹1.4L</div><div class="stat-sub">↑ +18% vs last month</div></div></div>
+      <div class="stat-card blue"><div class="stat-icon blue">📅</div><div class="stat-info"><div class="stat-label">Appointments</div><div class="stat-value" style="color:var(--blue)">312</div><div class="stat-sub">57 today</div></div></div>
+      <div class="stat-card green"><div class="stat-icon green">🔬</div><div class="stat-info"><div class="stat-label">Lab Tests Done</div><div class="stat-value" style="color:var(--green)">94</div><div class="stat-sub">8 pending</div></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-header"><div class="card-title">Daily Appointment Report</div></div><div class="card-body">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-date">09:00 AM — 2025-06-09</div>Priya Sharma → Dr. Mehta (Consultation) <span class="badge badge-green">Done</span></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-date">10:30 AM — 2025-06-09</div>Rohit Kumar → Dr. Singh (Follow-up) <span class="badge badge-blue">In Progress</span></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-date">11:00 AM — 2025-06-09</div>Anjali Verma → Dr. Patel (Consultation) <span class="badge badge-gold">Waiting</span></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-date">02:00 PM — 2025-06-09</div>Suresh Nair → Dr. Mehta (Emergency) <span class="badge badge-gray">Scheduled</span></div></div>
+        </div>
+      </div></div>
+      <div class="card"><div class="card-header"><div class="card-title">Billing Summary</div></div><div class="card-body">
+        <div class="receipt">
+          <div class="receipt-header"><strong style="font-size:15px">MediCare+ Hospital</strong><br><span style="font-size:11px;opacity:0.6">Monthly Summary Report — June 2025</span></div>
+          <div class="receipt-row"><span>Consultation Revenue</span><span>₹ 42,500</span></div>
+          <div class="receipt-row"><span>Medicine Revenue</span><span>₹ 28,000</span></div>
+          <div class="receipt-row"><span>Lab Revenue</span><span>₹ 69,500</span></div>
+          <div class="receipt-row"><span>Total Patients Billed</span><span>198</span></div>
+          <div class="receipt-row"><span>Pending Payments</span><span>₹ 12,400</span></div>
+          <div class="receipt-total"><div class="receipt-row"><span>TOTAL REVENUE</span><span>₹ 1,40,000</span></div></div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ═══ CUSTOMER CARE ═══ -->
+  <section class="page" id="page-care">
+    <div class="section-head"><h3>Customer Care & Support</h3></div>
+    <div class="care-channels">
+      <div class="care-channel-card" onclick="activateCare(this,'phone-care')"><div class="icon">📞</div><h4>Call Us</h4><p>24/7 helpline available</p><div style="font-weight:600;color:var(--teal);font-size:15px;margin-top:8px">1800-123-4567</div></div>
+      <div class="care-channel-card" onclick="activateCare(this,'email-care')"><div class="icon">📧</div><h4>Email Support</h4><p>Reply within 2 hours</p><div style="font-weight:600;color:var(--teal);font-size:15px;margin-top:8px">care@medicare.in</div></div>
+      <div class="care-channel-card" onclick="activateCare(this,'chat-care')"><div class="icon">💬</div><h4>Live Chat</h4><p>Chat with a support agent</p><div style="margin-top:8px"><span class="badge badge-green">● Online</span></div></div>
+      <div class="care-channel-card" onclick="activateCare(this,'ai-care')"><div class="icon">🤖</div><h4>AI Assistant</h4><p>Dr. MedAI — instant help</p><div style="margin-top:8px"><span class="badge badge-blue">Always Available</span></div></div>
+    </div>
+
+    <div id="phone-care" class="care-panel" style="display:none">
+      <div class="card"><div class="card-header"><div class="card-title">📞 Phone Support</div></div><div class="card-body">
+        <div class="alert alert-info">📞 Our helpline <strong>1800-123-4567</strong> is available 24/7. Press 1 for Appointments, 2 for Billing, 3 for Emergency.</div>
+        <div class="form-row"><div class="form-group"><label>Request Callback</label><input type="tel" id="callback-phone" placeholder="Your phone number"></div><div style="display:flex;align-items:flex-end"><button class="btn btn-primary" onclick="requestCallback()">📲 Request Callback</button></div></div>
+        <div id="callback-alert"></div>
+      </div></div>
+    </div>
+
+    <div id="email-care" class="care-panel" style="display:none">
+      <div class="card"><div class="card-header"><div class="card-title">📧 Email Support</div></div><div class="card-body">
+        <div class="form-row"><div class="form-group"><label>Your Name</label><input type="text" id="care-name" placeholder="Full name"></div><div class="form-group"><label>Email</label><input type="email" id="care-email" placeholder="you@email.com"></div></div>
+        <div class="form-group" style="margin-bottom:16px"><label>Subject</label><select id="care-subject"><option>Appointment Issue</option><option>Billing Query</option><option>Medical Records</option><option>Doctor Feedback</option><option>Other</option></select></div>
+        <div class="form-group" style="margin-bottom:16px"><label>Message</label><textarea id="care-msg" placeholder="Describe your query…"></textarea></div>
+        <button class="btn btn-primary" onclick="submitEmail()">📨 Send Message</button>
+        <div id="email-alert" style="margin-top:12px"></div>
+      </div></div>
+    </div>
+
+    <div id="chat-care" class="care-panel" style="display:none">
+      <div class="card"><div class="card-header"><div class="card-title">💬 Live Chat Support</div><span class="badge badge-green">Agent Online</span></div><div class="card-body">
+        <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:16px;min-height:200px;font-size:13.5px;display:flex;flex-direction:column;gap:10px" id="live-chat-msgs">
+          <div style="background:var(--teal);color:white;padding:10px 14px;border-radius:12px;border-bottom-left-radius:3px;width:fit-content;max-width:80%">👋 Hello! I'm Aryan, your support agent. How can I help you today?</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <input type="text" id="live-chat-inp" placeholder="Type your message…" style="flex:1" onkeydown="if(event.key==='Enter')sendLiveChat()">
+          <button class="btn btn-primary btn-sm" onclick="sendLiveChat()">Send ➤</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div id="ai-care" class="care-panel" style="display:none">
+      <div class="alert alert-info">🤖 You can also use the floating AI Doctor button at the bottom-right of any page for instant AI assistance!</div>
+    </div>
+  </section>
+
+  <!-- ═══ FEEDBACK ═══ -->
+  <section class="page" id="page-feedback">
+    <div class="section-head"><h3>Patient Feedback & Reviews</h3></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Share Your Experience</div></div>
+        <div class="card-body">
+          <div id="feedback-alert"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Your Name *</label><input type="text" id="fb-name" placeholder="Full name"></div>
+            <div class="form-group"><label>Patient ID</label><input type="text" id="fb-pid" placeholder="e.g. P-001"></div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px"><label>Department</label>
+            <select id="fb-dept"><option value="">Select Department</option><option>Cardiology</option><option>Orthopedics</option><option>Neurology</option><option>Pediatrics</option><option>Dermatology</option><option>Emergency</option><option>Pharmacy</option><option>Laboratory</option></select>
+          </div>
+          <div class="form-group" style="margin-bottom:16px"><label>Overall Experience</label>
+            <div class="stars" id="stars-container">
+              <span class="star" data-val="1" onclick="setRating(1)">★</span>
+              <span class="star" data-val="2" onclick="setRating(2)">★</span>
+              <span class="star" data-val="3" onclick="setRating(3)">★</span>
+              <span class="star" data-val="4" onclick="setRating(4)">★</span>
+              <span class="star" data-val="5" onclick="setRating(5)">★</span>
+            </div>
+            <div id="rating-label" style="font-size:13px;color:var(--gray-400);margin-top:4px">Click to rate</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Doctor Quality</label><select id="fb-docq"><option>Excellent</option><option>Good</option><option>Average</option><option>Poor</option></select></div>
+            <div class="form-group"><label>Staff Behavior</label><select id="fb-staffq"><option>Excellent</option><option>Good</option><option>Average</option><option>Poor</option></select></div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px"><label>Your Feedback *</label><textarea id="fb-text" placeholder="Tell us about your experience…"></textarea></div>
+          <div class="form-group" style="margin-bottom:20px"><label>Recommend us?</label><div style="display:flex;gap:16px;margin-top:6px"><label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="recommend" value="yes"> Yes, definitely!</label><label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="radio" name="recommend" value="no"> Not sure</label></div></div>
+          <button class="btn btn-gold" style="width:100%" onclick="submitFeedback()">💬 Submit Feedback</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Recent Reviews</div><span class="badge badge-gold">⭐ 4.7 / 5</span></div>
+        <div class="card-body" id="reviews-list">
+          <div style="border-bottom:1px solid var(--gray-100);padding-bottom:16px;margin-bottom:16px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="user-avatar" style="width:36px;height:36px;font-size:14px">PS</div><div><div style="font-weight:600;font-size:14px">Priya S.</div><div style="font-size:11px;color:var(--gray-400)">Cardiology • 2 days ago</div></div><div style="margin-left:auto;color:var(--gold);font-size:16px">★★★★★</div></div>
+            <p style="font-size:13.5px;color:var(--gray-600)">Excellent service. Dr. Mehta was very attentive and the staff was very caring. The hospital is clean and well-organized.</p>
+          </div>
+          <div style="border-bottom:1px solid var(--gray-100);padding-bottom:16px;margin-bottom:16px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div class="user-avatar" style="width:36px;height:36px;font-size:14px;background:linear-gradient(135deg,#805ad5,#3182ce)">RK</div><div><div style="font-weight:600;font-size:14px">Rohit K.</div><div style="font-size:11px;color:var(--gray-400)">Orthopedics • 5 days ago</div></div><div style="margin-left:auto;color:var(--gold);font-size:16px">★★★★☆</div></div>
+            <p style="font-size:13.5px;color:var(--gray-600)">Good experience overall. Waiting time was a bit long but the treatment was excellent. Would recommend.</p>
+          </div>
+          <div id="extra-reviews"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════ MODALS ════════ -->
+<!-- Patient Registration Modal -->
+<div class="modal-overlay" id="modal-reg-patient">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Register New Patient</div><button class="modal-close" onclick="closeModal('modal-reg-patient')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Full Name *</label><input type="text" id="mp-name" placeholder="Patient full name"></div><div class="form-group"><label>Age *</label><input type="number" id="mp-age" placeholder="Age"></div></div>
+      <div class="form-row"><div class="form-group"><label>Gender</label><select id="mp-gender"><option>Male</option><option>Female</option><option>Other</option></select></div><div class="form-group"><label>Blood Group</label><select id="mp-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Phone</label><input type="tel" id="mp-phone" placeholder="Mobile number"></div><div class="form-group"><label>Referred Doctor</label><select id="mp-doc"><option>Dr. Mehta (Cardiology)</option><option>Dr. Singh (Orthopedics)</option><option>Dr. Patel (Neurology)</option><option>Dr. Rao (Pediatrics)</option></select></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-reg-patient')">Cancel</button><button class="btn btn-primary" onclick="registerPatientModal()">✅ Register</button></div>
+  </div>
+</div>
+
+<!-- Add Doctor Modal -->
+<div class="modal-overlay" id="modal-add-doctor">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Add New Doctor</div><button class="modal-close" onclick="closeModal('modal-add-doctor')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Doctor Name *</label><input type="text" placeholder="Dr. Full Name"></div><div class="form-group"><label>Specialization *</label><select><option>Cardiology</option><option>Orthopedics</option><option>Neurology</option><option>Pediatrics</option><option>Dermatology</option><option>General Medicine</option><option>ENT</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Consultation Fee (₹)</label><input type="number" placeholder="Fee"></div><div class="form-group"><label>Phone</label><input type="tel" placeholder="Contact number"></div></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Available Slots</label><input type="text" placeholder="e.g. 09:00–17:00"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-doctor')">Cancel</button><button class="btn btn-primary" onclick="addDoctorModal()">➕ Add Doctor</button></div>
+  </div>
+</div>
+
+<!-- Add Nurse Modal -->
+<div class="modal-overlay" id="modal-add-nurse">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Add New Nurse</div><button class="modal-close" onclick="closeModal('modal-add-nurse')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Nurse Name *</label><input type="text" placeholder="Full name"></div><div class="form-group"><label>Department *</label><select><option>ICU</option><option>Pediatrics</option><option>Emergency</option><option>Cardiology</option><option>General Ward</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Shift *</label><select><option>Morning</option><option>Evening</option><option>Night</option></select></div><div class="form-group"><label>Phone</label><input type="tel" placeholder="Contact"></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-nurse')">Cancel</button><button class="btn btn-primary" onclick="addNurseModal()">➕ Add Nurse</button></div>
+  </div>
+</div>
+
+<!-- Book Appointment Modal -->
+<div class="modal-overlay" id="modal-book-appt">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Book Appointment</div><button class="modal-close" onclick="closeModal('modal-book-appt')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Patient *</label><input type="text" placeholder="Patient ID or name"></div><div class="form-group"><label>Doctor *</label><select><option value="">Select</option><option>Dr. Mehta</option><option>Dr. Singh</option><option>Dr. Patel</option><option>Dr. Rao</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Date *</label><input type="date"></div><div class="form-group"><label>Time *</label><input type="time"></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-book-appt')">Cancel</button><button class="btn btn-primary" onclick="bookApptModal()">✅ Confirm</button></div>
+  </div>
+</div>
+
+<!-- Add Medicine Modal -->
+<div class="modal-overlay" id="modal-add-med">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Add Medicine</div><button class="modal-close" onclick="closeModal('modal-add-med')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Medicine Name *</label><input type="text" placeholder="Medicine name"></div><div class="form-group"><label>Price per unit (₹)</label><input type="number" placeholder="Price"></div></div>
+      <div class="form-row"><div class="form-group"><label>Stock Quantity</label><input type="number" placeholder="Quantity"></div><div class="form-group"><label>Expiry Date</label><input type="date"></div></div>
+      <div class="form-group" style="margin-bottom:0"><label>Category</label><select><option>Tablet</option><option>Syrup</option><option>Injection</option><option>Capsule</option><option>Cream</option><option>Other</option></select></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-med')">Cancel</button><button class="btn btn-primary" onclick="addMedModal()">➕ Add Medicine</button></div>
+  </div>
+</div>
+
+<!-- Add Record Modal -->
+<div class="modal-overlay" id="modal-add-record">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Add Medical Record</div><button class="modal-close" onclick="closeModal('modal-add-record')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Patient *</label><input type="text" placeholder="Patient ID"></div><div class="form-group"><label>Doctor *</label><select><option>Dr. Mehta</option><option>Dr. Singh</option><option>Dr. Patel</option></select></div></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Diagnosis *</label><input type="text" placeholder="Diagnosis"></div>
+      <div class="form-group" style="margin-bottom:16px"><label>Prescription</label><textarea placeholder="Medicine names, dosage, duration…"></textarea></div>
+      <div class="form-group" style="margin-bottom:0"><label>Notes</label><textarea placeholder="Additional notes…"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-record')">Cancel</button><button class="btn btn-primary" onclick="addRecordModal()">💾 Save Record</button></div>
+  </div>
+</div>
+
+<!-- Add Lab Report Modal -->
+<div class="modal-overlay" id="modal-add-lab">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">New Laboratory Report</div><button class="modal-close" onclick="closeModal('modal-add-lab')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Patient *</label><input type="text" placeholder="Patient ID"></div><div class="form-group"><label>Test Name *</label><input type="text" placeholder="e.g. CBC, ECG, MRI"></div></div>
+      <div class="form-row"><div class="form-group"><label>Result</label><input type="text" placeholder="Test result"></div><div class="form-group"><label>Report Date</label><input type="date"></div></div>
+      <div class="form-group" style="margin-bottom:0"><label>Notes</label><textarea placeholder="Additional findings…"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-add-lab')">Cancel</button><button class="btn btn-primary" onclick="addLabModal()">🔬 Generate Report</button></div>
+  </div>
+</div>
+
+<!-- Generate Bill Modal -->
+<div class="modal-overlay" id="modal-gen-bill">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Generate Bill</div><button class="modal-close" onclick="closeModal('modal-gen-bill')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Patient *</label><input type="text" placeholder="Patient ID or name"></div></div>
+      <div class="form-row">
+        <div class="form-group"><label>Consultation (₹)</label><input type="number" id="mb-consult" placeholder="0" oninput="calcModalBill()"></div>
+        <div class="form-group"><label>Medicines (₹)</label><input type="number" id="mb-med" placeholder="0" oninput="calcModalBill()"></div>
+        <div class="form-group"><label>Lab (₹)</label><input type="number" id="mb-lab" placeholder="0" oninput="calcModalBill()"></div>
+      </div>
+      <div style="background:var(--gray-100);border-radius:var(--radius-sm);padding:14px;text-align:center"><span style="font-size:13px;color:var(--gray-600)">Total: </span><span style="font-size:22px;font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace" id="modal-bill-total">₹ 0</span></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-gen-bill')">Cancel</button><button class="btn btn-gold" onclick="genBillModal()">🧾 Generate</button></div>
+  </div>
+</div>
+
+<!-- Patient Detail Modal -->
+<div class="modal-overlay" id="modal-patient-detail">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header"><div class="modal-title" id="pd-title">Patient Details</div><button class="modal-close" onclick="closeModal('modal-patient-detail')">×</button></div>
+    <div class="modal-body" id="pd-body"></div>
+    <div class="modal-footer"><button class="btn btn-primary" onclick="closeModal('modal-patient-detail')">Close</button></div>
+  </div>
+</div>
+
+<!-- Record Detail Modal -->
+<div class="modal-overlay" id="modal-record-detail">
+  <div class="modal"><div class="modal-header"><div class="modal-title">Medical Record</div><button class="modal-close" onclick="closeModal('modal-record-detail')">×</button></div>
+  <div class="modal-body" id="rd-body"></div>
+  <div class="modal-footer"><button class="btn btn-primary" onclick="closeModal('modal-record-detail')">Close</button></div></div>
+</div>
+
+<!-- Receipt Modal -->
+<div class="modal-overlay" id="modal-receipt">
+  <div class="modal"><div class="modal-header"><div class="modal-title">🧾 Payment Receipt</div><button class="modal-close" onclick="closeModal('modal-receipt')">×</button></div>
+  <div class="modal-body" id="receipt-body"></div>
+  <div class="modal-footer"><button class="btn btn-primary" onclick="printReceipt()">🖨️ Print</button><button class="btn btn-outline" onclick="closeModal('modal-receipt')">Close</button></div></div>
+</div>
+
+<!-- Lab Report Modal -->
+<div class="modal-overlay" id="modal-lab-detail">
+  <div class="modal"><div class="modal-header"><div class="modal-title">🔬 Laboratory Report</div><button class="modal-close" onclick="closeModal('modal-lab-detail')">×</button></div>
+  <div class="modal-body">
+    <div class="receipt">
+      <div class="receipt-header"><strong>MediCare+ Hospital — Lab Report</strong><br><span style="font-size:11px;opacity:0.6">Report ID: L-001 | Date: 2025-06-08</span></div>
+      <div class="receipt-row"><span>Patient</span><span>Priya Sharma (P-001)</span></div>
+      <div class="receipt-row"><span>Test</span><span>Complete Blood Count</span></div>
+      <div class="receipt-row"><span>Hemoglobin</span><span>11.2 g/dL (Low)</span></div>
+      <div class="receipt-row"><span>WBC</span><span>7,500 /μL (Normal)</span></div>
+      <div class="receipt-row"><span>Platelets</span><span>1,80,000 /μL (Normal)</span></div>
+      <div class="receipt-row"><span>RBC</span><span>3.8 million/μL (Low)</span></div>
+      <div class="receipt-total"><div class="receipt-row"><span>CONCLUSION</span><span>Mild Anemia</span></div></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-primary" onclick="printReceipt()">🖨️ Print</button><button class="btn btn-outline" onclick="closeModal('modal-lab-detail')">Close</button></div></div>
+</div>
+
+<!-- ════ AI DOCTOR CHAT ════ -->
+<button id="ai-fab" onclick="toggleChat()" title="Ask Dr. MedAI">🩺</button>
+<div id="ai-chat">
+  <div class="ai-chat-header">
+    <div class="ai-doctor-avatar">👨‍⚕️</div>
+    <div class="ai-chat-info">
+      <h4>Dr. MedAI</h4>
+      <p><span class="ai-online"></span>AI Medical Assistant · Always Available</p>
+    </div>
+    <button class="ai-chat-close" onclick="toggleChat()">×</button>
+  </div>
+  <div class="ai-messages" id="ai-messages">
+    <div class="msg bot">
+      <div class="msg-avatar bot">👨‍⚕️</div>
+      <div class="msg-bubble">Hello! I'm <strong>Dr. MedAI</strong>, your AI medical assistant. I can guide you through using MediCare+ and answer general health questions. How can I help you today? 😊</div>
+    </div>
+  </div>
+  <div class="ai-quick-btns">
+    <button class="quick-btn" onclick="sendQuick('How do I register a patient?')">Register patient</button>
+    <button class="quick-btn" onclick="sendQuick('How to book an appointment?')">Book appointment</button>
+    <button class="quick-btn" onclick="sendQuick('Where is billing?')">Billing help</button>
+    <button class="quick-btn" onclick="sendQuick('Emergency contact')">Emergency</button>
+  </div>
+  <div class="ai-input-area">
+    <input class="ai-input" id="ai-input" placeholder="Ask Dr. MedAI…" onkeydown="if(event.key==='Enter')sendMessage()">
+    <button class="ai-send" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
